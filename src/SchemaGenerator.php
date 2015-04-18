@@ -103,7 +103,7 @@ class SchemaGenerator {
 	public function generateXsd($phpNamespace, $packagePath = 'src/ViewHelpers') {
 		$packagePath = rtrim($packagePath, '/') . '/';
 		$phpNamespace = rtrim($phpNamespace, '\\') . '\\';
-		$xsdNamespace = 'http://typo3.org/ns/' . str_replace('\\', '/', $phpNamespace) . '/ViewHelpers';
+		$xsdNamespace = 'http://typo3.org/ns/' . str_replace('\\', '/', rtrim($phpNamespace, '\\'));
 		$classNames = $this->getClassNamesInPackage($packagePath, $phpNamespace);
 		if (count($classNames) === 0) {
 			throw new \RuntimeException(sprintf('No ViewHelpers found in path "%s"', $packagePath), 1330029328);
