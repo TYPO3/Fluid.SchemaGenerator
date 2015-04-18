@@ -6,23 +6,29 @@
  * @param integer $code
  */
 function exitWithError($message, $code = 1) {
-        echo $message . PHP_EOL;
-        exit($code);
+    echo $message . PHP_EOL;
+    exit($code);
 }
 
 if (file_exists(__DIR__ . '/../autoload.php')) {
-        require_once __DIR__ . '/../autoload.php';
+    require_once __DIR__ . '/../autoload.php';
 } elseif (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-        require_once __DIR__ . '/../vendor/autoload.php';
+    require_once __DIR__ . '/../vendor/autoload.php';
+} elseif (file_exists(__DIR__ . '/../../../autoload.php')) {
+    require_once __DIR__ . '/../../../autoload.php';
 }
 
 if (!isset($argv[1])) {
-        exitWithError('First argument must be the PHP class names\' prefix, e.g. MyVendor\\Package\\ViewHelpers!');
+    exitWithError('First argument must be the PHP class names\' prefix, e.g. MyVendor\\Package\\ViewHelpers!');
 }
 
 $classesPath = isset($argv[2])
     ? $argv[2]
-    : (realpath('./src/ViewHelpers') or exitWithError('Default path src/ViewHelpers does not exist!'));
+    : realpath('./src/ViewHelpers');
+
+if (!is_dir($classesPath)) {
+    exitWithError('Default path src/ViewHelpers does not exist!');
+}
 
 $generator = new \TYPO3\Fluid\SchemaGenerator\SchemaGenerator();
 $xsd = $generator->generateXsd($argv[1], $classesPath);
