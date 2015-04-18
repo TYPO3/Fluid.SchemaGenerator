@@ -1,0 +1,22 @@
+{
+	"name": "namelesscoder/fluid-schema-generator",
+	"description": "Generates XSD schemas for packages containing Fluid ViewHelpers",
+	"license": ["MIT"],
+	"require": {
+		"namelesscoder/fluid": "*"
+	},
+	"require-dev": {
+		"namelesscoder/fluid": "dev-master",
+		"phpunit/phpunit": "4.3.*",
+		"mikey179/vfsStream": "~1.3.0",
+		"satooshi/php-coveralls": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"TYPO3\\Fluid\\SchemaGenerator\\": "src/"
+		}
+	},
+	"bin": [
+		"bin/generateschema"
+	]
+}
