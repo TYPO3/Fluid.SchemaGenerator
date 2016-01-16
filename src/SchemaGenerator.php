@@ -2,6 +2,8 @@
 namespace TYPO3\Fluid\SchemaGenerator;
 
 use TYPO3\Fluid\Core\ViewHelper\ArgumentDefinition;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperResolver;
 
 /**
  * @package Schemaker
@@ -22,7 +24,46 @@ class SchemaGenerator {
 	}
 
 	/**
+	 * Generate the XML Schema definition for a given namespace.
+	 * It will generate an XSD file for all view helpers in this namespace.
+	 * The first provided namespace is used when determining the XSD
+	 * namespace URL that gets recored in the output schema.
+	 *
+	 * Map must be an array of ["php\namespace" => "src/ViewHelpers"]
+	 * values, e.g. an array of class paths indexed by namespace.
+	 *
+	 * @param array $namespaceClassPathMap
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function generateXsd(array $namespaceClassPathMap) {
+		$phpNamespace = key($namespaceClassPathMap);
+		$phpNamespace = rtrim($phpNamespace, '\\');
+		$xsdNamespace = 'http://typo3.org/ns/' . str_replace('\\', '/', rtrim($phpNamespace, '\\'));
+		$xmlRootNode = new \SimpleXMLElement(
+			'<?xml version="1.0" encoding="UTF-8"?>
+			<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+				        xmlns:php="http://www.php.net/"
+				        targetNamespace="' . $xsdNamespace . '">
+			</xsd:schema>'
+		);
+		$classNames = array();
+		foreach ($namespaceClassPathMap as $namespace => $classesPath) {
+			$classNames = array_replace($classNames, $this->getClassNamesInPackage($classesPath, $namespace));
+			if (count($classNames) === 0) {
+				throw new \RuntimeException(sprintf('No ViewHelpers found in path "%s"', $classesPathPath), 1330029328);
+			}
+		}
+		foreach ($classNames as $className) {
+			$this->generateXmlForClassName($className, $xmlRootNode);
+		}
+		return $xmlRootNode->asXML();
+	}
+
+	/**
 	 * Get all class names inside this namespace and return them as array.
+	 * To generate a merged namespace simply provide multiple paths (with
+	 * comma as separator) as $packagePaths argument value.
 	 *
 	 * @param string $packagePath
 	 * @param string $phpNamespace
@@ -30,6 +71,9 @@ class SchemaGenerator {
 	 */
 	protected function getClassNamesInPackage($packagePath, $phpNamespace) {
 		$allViewHelperClassNames = array();
+		$affectedViewHelperClassNames = array();
+
+		$packagePath = rtrim($packagePath, '/') . '/';
 		$filesInPath = new \RecursiveDirectoryIterator($packagePath, \RecursiveDirectoryIterator::SKIP_DOTS);
 		$packagePathLength = strlen($packagePath);
 		foreach ($filesInPath as $filePathAndFilename) {
@@ -43,13 +87,13 @@ class SchemaGenerator {
 				}
 			}
 		}
-		$affectedViewHelperClassNames = array();
 		foreach ($allViewHelperClassNames as $viewHelperClassName) {
 			$classReflection = new \ReflectionClass($viewHelperClassName);
 			if ($classReflection->isAbstract() === FALSE) {
 				$affectedViewHelperClassNames[] = $viewHelperClassName;
 			}
 		}
+
 		sort($affectedViewHelperClassNames);
 		return $affectedViewHelperClassNames;
 	}
@@ -92,36 +136,6 @@ class SchemaGenerator {
 	}
 
 	/**
-	 * Generate the XML Schema definition for a given namespace.
-	 * It will generate an XSD file for all view helpers in this namespace.
-	 *
-	 * @param string $phpNamespace
-	 * @param string $packagePath
-	 * @return string
-	 * @throws \Exception
-	 */
-	public function generateXsd($phpNamespace, $packagePath = 'src/ViewHelpers') {
-		$packagePath = rtrim($packagePath, '/') . '/';
-		$phpNamespace = rtrim($phpNamespace, '\\') . '\\';
-		$xsdNamespace = 'http://typo3.org/ns/' . str_replace('\\', '/', rtrim($phpNamespace, '\\'));
-		$classNames = $this->getClassNamesInPackage($packagePath, $phpNamespace);
-		if (count($classNames) === 0) {
-			throw new \RuntimeException(sprintf('No ViewHelpers found in path "%s"', $packagePath), 1330029328);
-		}
-		$xmlRootNode = new \SimpleXMLElement(
-			'<?xml version="1.0" encoding="UTF-8"?>
-			<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-				        xmlns:php="http://www.php.net/"
-				        targetNamespace="' . $xsdNamespace . '">
-			</xsd:schema>'
-		);
-		foreach ($classNames as $className) {
-			$this->generateXmlForClassName($className, $xmlRootNode);
-		}
-		return $xmlRootNode->asXML();
-	}
-
-	/**
 	 * Generate the XML Schema for a given class name.
 	 *
 	 * @param string $className Class name to generate the schema for.
@@ -130,7 +144,7 @@ class SchemaGenerator {
 	 */
 	protected function generateXmlForClassName($className, \SimpleXMLElement $xmlRootNode) {
 		$reflectionClass = new \ReflectionClass($className);
-		if ($reflectionClass->isSubclassOf('TYPO3\\Fluid\\Core\\ViewHelper\\AbstractViewHelper')) {
+		if ($reflectionClass->implementsInterface(ViewHelperInterface::class)) {
 			$tagName = $this->getTagNameForClass($className);
 
 			$xsdElement = $xmlRootNode->addChild('xsd:element');

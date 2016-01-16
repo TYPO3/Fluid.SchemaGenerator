@@ -3,10 +3,9 @@
 	"description": "Generates XSD schemas for packages containing Fluid ViewHelpers",
 	"license": ["MIT"],
 	"require": {
-		"namelesscoder/fluid": "*"
+		"typo3fluid/fluid": "^1.0"
 	},
 	"require-dev": {
-		"namelesscoder/fluid": "dev-master",
 		"phpunit/phpunit": "4.3.*",
 		"mikey179/vfsStream": "~1.3.0",
 		"satooshi/php-coveralls": "*"

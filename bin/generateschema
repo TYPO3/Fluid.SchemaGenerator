@@ -10,27 +10,39 @@ function exitWithError($message, $code = 1) {
     exit($code);
 }
 
+/** @var \Composer\Autoload\ClassLoader $autoloader */
 if (file_exists(__DIR__ . '/../autoload.php')) {
-    require_once __DIR__ . '/../autoload.php';
+    $autoloader = require_once __DIR__ . '/../autoload.php';
 } elseif (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    require_once __DIR__ . '/../vendor/autoload.php';
+	$autoloader = require_once __DIR__ . '/../vendor/autoload.php';
 } elseif (file_exists(__DIR__ . '/../../../autoload.php')) {
-    require_once __DIR__ . '/../../../autoload.php';
+	$autoloader = require_once __DIR__ . '/../../../autoload.php';
+} else {
+	exitWithError('Unable to resolve composer autoload.php file', 2);
 }
 
 if (!isset($argv[1])) {
-    exitWithError('First argument must be the PHP class names\' prefix, e.g. MyVendor\\Package\\ViewHelpers!');
+    exitWithError('You must specify at least one composer PSR-4 root namespace for which to build ViewHelpers');
 }
 
-$classesPath = isset($argv[2])
-    ? $argv[2]
-    : realpath('./src/ViewHelpers');
+$namespaces = array_slice($argv, 1);
+$namespaceClassPathMap = array();
+$prefixes = $autoloader->getPrefixesPsr4();
 
-if (!is_dir($classesPath)) {
-    exitWithError('Default path src/ViewHelpers does not exist!');
+foreach ($namespaces as $namespace) {
+	$namespace = trim($namespace, '\\') . '\\';
+
+	$classesPath = $prefixes[$namespace][0];
+	$namespace = rtrim($namespace, '\\') . '\\ViewHelpers\\';
+	$namespaceClassPathMap[$namespace] = $classesPath . '/ViewHelpers/';
+	if (!is_dir($classesPath)) {
+		exitWithError(sprintf('Directory "%s" does not exist but is declared in composer autoload entries', $classesPath));
+	}
 }
-
+#var_dump($prefixes);
+#var_dump($namespaces);
+var_dump($namespaceClassPathMap);
 $generator = new \TYPO3\Fluid\SchemaGenerator\SchemaGenerator();
-$xsd = $generator->generateXsd($argv[1], $classesPath);
+$xsd = $generator->generateXsd($namespaceClassPathMap);
 
 echo $xsd;
