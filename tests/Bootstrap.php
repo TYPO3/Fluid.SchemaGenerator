@@ -8,4 +8,4 @@ if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
 
 /** @var Composer\Autoload\ClassLoader $autoloader */
 $autoloader = require __DIR__ . '/../vendor/autoload.php';
-$autoloader->addPsr4('TYPO3\\Fluid\\SchemaGenerator\\Tests\\Unit\\', __DIR__ . '/Unit/');
+$autoloader->addPsr4('TYPO3Fluid\\SchemaGenerator\\Tests\\Unit\\', __DIR__ . '/Unit/');

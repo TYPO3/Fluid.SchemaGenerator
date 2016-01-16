@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c1a0d7c4466e1b94cb35ed3c8699cf88",
-    "content-hash": "9fdf459d3a6b864daeca6ef3dc99d47c",
+    "hash": "6b876ed6cb3bdb3fc92d32de0ce8d170",
+    "content-hash": "d4b4b420bc1db8ba38fb32b92c540fb6",
     "packages": [
         {
             "name": "typo3fluid/fluid",

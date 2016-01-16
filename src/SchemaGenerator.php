@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\Fluid\SchemaGenerator;
+namespace TYPO3Fluid\SchemaGenerator;
 
 use TYPO3\Fluid\Core\ViewHelper\ArgumentDefinition;
 use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
@@ -51,7 +51,7 @@ class SchemaGenerator {
 		foreach ($namespaceClassPathMap as $namespace => $classesPath) {
 			$classNames = array_replace($classNames, $this->getClassNamesInPackage($classesPath, $namespace));
 			if (count($classNames) === 0) {
-				throw new \RuntimeException(sprintf('No ViewHelpers found in path "%s"', $classesPathPath), 1330029328);
+				throw new \RuntimeException(sprintf('No ViewHelpers found in path "%s"', $classesPath), 1330029328);
 			}
 		}
 		foreach ($classNames as $className) {

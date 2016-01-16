@@ -1,8 +1,9 @@
 <?php
-namespace TYPO3\Fluid\SchemaGenerator\Tests\Unit;
+namespace TYPO3Fluid\SchemaGenerator\Tests\Unit;
 
 use FluidTYPO3\Schemaker\Service\SchemaService;
-use TYPO3\Fluid\SchemaGenerator\SchemaGenerator;
+use TYPO3Fluid\SchemaGenerator\SchemaGenerator;
+use TYPO3Fluid\SchemaGenerator\DocCommentParser;
 
 /**
  * Class SchemaGeneratorTest
@@ -14,7 +15,7 @@ class SchemaGeneratorTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testPerformsInjections() {
 		$instance = new SchemaGenerator();
-		$this->assertAttributeInstanceOf('TYPO3\\Fluid\\SchemaGenerator\\DocCommentParser', 'docCommentParser', $instance);
+		$this->assertAttributeInstanceOf(DocCommentParser::class, 'docCommentParser', $instance);
 	}
 
 	/**
@@ -45,10 +46,10 @@ class SchemaGeneratorTest extends \PHPUnit_Framework_TestCase {
 	 * @test
 	 */
 	public function testGenerateXsdErrorsWhenNoViewHelpersInPackage() {
-		$service = $this->getMock('TYPO3\\Fluid\\SchemaGenerator\\SchemaGenerator', array('getClassNamesInPackage'));
+		$service = $this->getMock(SchemaGenerator::class, array('getClassNamesInPackage'));
 		$service->expects($this->once())->method('getClassNamesInPackage')->willReturn(array());
 		$this->setExpectedException('RuntimeException');
-		$service->generateXsd('FluidTYPO3.Schemaker', 'test');
+		$service->generateXsd(array('TYPO3Fluid\\SchemaGenerator'));
 	}
 
 	/**

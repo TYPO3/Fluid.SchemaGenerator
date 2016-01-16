@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\Fluid\SchemaGenerator;
+namespace TYPO3Fluid\SchemaGenerator;
 
 /**
  * A little parser which creates tag objects from doc comments

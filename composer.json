@@ -1,5 +1,5 @@
 {
-	"name": "namelesscoder/fluid-schema-generator",
+	"name": "typo3fluid/schema-generator",
 	"description": "Generates XSD schemas for packages containing Fluid ViewHelpers",
 	"license": ["MIT"],
 	"require": {
@@ -12,7 +12,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"TYPO3\\Fluid\\SchemaGenerator\\": "src/"
+			"TYPO3Fluid\\SchemaGenerator\\": "src/"
 		}
 	},
 	"bin": [

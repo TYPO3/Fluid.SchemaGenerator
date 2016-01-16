@@ -1,6 +1,7 @@
 <?php
-namespace TYPO3\Fluid\SchemaGenerator\Tests\Functional;
-use TYPO3\Fluid\SchemaGenerator\SchemaGenerator;
+namespace TYPO3Fluid\SchemaGenerator\Tests\Functional;
+
+use TYPO3Fluid\SchemaGenerator\SchemaGenerator;
 
 /**
  * Class SchemaGeneratorTest
@@ -12,10 +13,7 @@ class SchemaGeneratorTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGenerateSchema() {
 		$generator = new SchemaGenerator();
-		$xml = $generator->generateXsd(
-			'TYPO3\\Fluid\\ViewHelpers',
-			__DIR__ . '/../../vendor/namelesscoder/fluid/src/ViewHelpers'
-		);
+		$xml = $generator->generateXsd(array('TYPO3Fluid\\Fluid\\ViewHelpers\\' => __DIR__ . '/../../vendor/typo3fluid/fluid/src/ViewHelpers/'));
 		$this->assertStringStartsWith('<?xml', $xml);
 		$this->assertStringEndsWith('</xsd:schema>' . PHP_EOL, $xml);
 	}
