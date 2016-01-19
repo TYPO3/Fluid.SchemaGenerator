@@ -43,59 +43,15 @@ class SchemaGenerator {
 		$xmlRootNode = new \SimpleXMLElement(
 			'<?xml version="1.0" encoding="UTF-8"?>
 			<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-				        xmlns:php="http://www.php.net/"
 				        targetNamespace="' . $xsdNamespace . '">
 			</xsd:schema>'
 		);
-		$classNames = array();
-		foreach ($namespaceClassPathMap as $namespace => $classesPath) {
-			$classNames = array_replace($classNames, $this->getClassNamesInPackage($classesPath, $namespace));
-			if (count($classNames) === 0) {
-				throw new \RuntimeException(sprintf('No ViewHelpers found in path "%s"', $classesPath), 1330029328);
-			}
-		}
+		$classFinder = new ClassFinder();
+		$classNames = $classFinder->getClassNamesInPackages($namespaceClassPathMap);
 		foreach ($classNames as $className) {
-			$this->generateXmlForClassName($className, $xmlRootNode);
+			$this->generateXmlForClassName(new ViewHelperDocumentation($className), $xmlRootNode);
 		}
 		return $xmlRootNode->asXML();
-	}
-
-	/**
-	 * Get all class names inside this namespace and return them as array.
-	 * To generate a merged namespace simply provide multiple paths (with
-	 * comma as separator) as $packagePaths argument value.
-	 *
-	 * @param string $packagePath
-	 * @param string $phpNamespace
-	 * @return array
-	 */
-	protected function getClassNamesInPackage($packagePath, $phpNamespace) {
-		$allViewHelperClassNames = array();
-		$affectedViewHelperClassNames = array();
-
-		$packagePath = rtrim($packagePath, '/') . '/';
-		$filesInPath = new \RecursiveDirectoryIterator($packagePath, \RecursiveDirectoryIterator::SKIP_DOTS);
-		$packagePathLength = strlen($packagePath);
-		foreach ($filesInPath as $filePathAndFilename) {
-			$relativePath = substr($filePathAndFilename, $packagePathLength, -4);
-			$classLocation = str_replace('/', '\\', $relativePath);
-			$className = $phpNamespace . $classLocation;
-			if (class_exists($className)) {
-				$parent = $className;
-				while ($parent = get_parent_class($parent)) {
-					array_push($allViewHelperClassNames, $className);
-				}
-			}
-		}
-		foreach ($allViewHelperClassNames as $viewHelperClassName) {
-			$classReflection = new \ReflectionClass($viewHelperClassName);
-			if ($classReflection->isAbstract() === FALSE) {
-				$affectedViewHelperClassNames[] = $viewHelperClassName;
-			}
-		}
-
-		sort($affectedViewHelperClassNames);
-		return $affectedViewHelperClassNames;
 	}
 
 	/**
@@ -138,19 +94,18 @@ class SchemaGenerator {
 	/**
 	 * Generate the XML Schema for a given class name.
 	 *
-	 * @param string $className Class name to generate the schema for.
+	 * @param ViewHelperDocumentation $documentation Class name to generate the schema for.
 	 * @param \SimpleXMLElement $xmlRootNode XML root node where the xsd:element is appended.
 	 * @return void
 	 */
-	protected function generateXmlForClassName($className, \SimpleXMLElement $xmlRootNode) {
-		$reflectionClass = new \ReflectionClass($className);
-		if ($reflectionClass->implementsInterface(ViewHelperInterface::class)) {
-			$tagName = $this->getTagNameForClass($className);
+	protected function generateXmlForClassName(ViewHelperDocumentation $documentation, \SimpleXMLElement $xmlRootNode) {
+		if ($documentation->isIncluded()) {
+			$tagName = $this->getTagNameForClass($documentation->getClass());
 
 			$xsdElement = $xmlRootNode->addChild('xsd:element');
 			$xsdElement['name'] = $tagName;
-			$this->docCommentParser->parseDocComment($reflectionClass->getDocComment());
-			$this->addDocumentation($this->docCommentParser->getDescription(), $xsdElement);
+
+			$this->addDocumentation($documentation->getDescription(), $xsdElement);
 
 			$xsdComplexType = $xsdElement->addChild('xsd:complexType');
 			$xsdComplexType['mixed'] = 'true';
@@ -159,7 +114,7 @@ class SchemaGenerator {
 			$xsdAny['minOccurs'] = '0';
 			$xsdAny['maxOccurs'] = '1';
 
-			$this->addAttributes($className, $xsdComplexType);
+			$this->addAttributes($documentation, $xsdComplexType);
 		}
 
 	}
@@ -172,19 +127,14 @@ class SchemaGenerator {
 	 * @param \SimpleXMLElement $xsdElement XML element to add the attributes to.
 	 * @return void
 	 */
-	protected function addAttributes($className, \SimpleXMLElement $xsdElement) {
-		$viewHelper = new $className();
-		/** @var ArgumentDefinition[] $argumentDefinitions */
-		$argumentDefinitions = $viewHelper->prepareArguments();
-
-		foreach ($argumentDefinitions as $argumentDefinition) {
+	protected function addAttributes(ViewHelperDocumentation $documentation, \SimpleXMLElement $xsdElement) {
+		foreach ($documentation->getArgumentDefinitions() as $argumentDefinition) {
 			$default = $argumentDefinition->getDefaultValue();
 			$type = $argumentDefinition->getType();
 			$xsdAttribute = $xsdElement->addChild('xsd:attribute');
 			$xsdAttribute['type'] = $this->convertPhpTypeToXsdType($type);
 			$xsdAttribute['name'] = $argumentDefinition->getName();
 			$xsdAttribute['default'] = var_export($default, TRUE);
-			$xsdAttribute['php:type'] = $type;
 			if ($argumentDefinition->isRequired()) {
 				$xsdAttribute['use'] = 'required';
 			}

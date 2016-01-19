@@ -46,8 +46,7 @@ class SchemaGeneratorTest extends \PHPUnit_Framework_TestCase {
 	 * @test
 	 */
 	public function testGenerateXsdErrorsWhenNoViewHelpersInPackage() {
-		$service = $this->getMock(SchemaGenerator::class, array('getClassNamesInPackage'));
-		$service->expects($this->once())->method('getClassNamesInPackage')->willReturn(array());
+		$service = $this->getMock(SchemaGenerator::class, array('dummy'));
 		$this->setExpectedException('RuntimeException');
 		$service->generateXsd(array('TYPO3Fluid\\SchemaGenerator'));
 	}
