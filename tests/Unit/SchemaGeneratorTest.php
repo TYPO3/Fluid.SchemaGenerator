@@ -1,6 +1,11 @@
 <?php
 namespace TYPO3\FluidSchemaGenerator\Tests\Unit;
 
+/*
+ * This file belongs to the package "TYPO3 FluidSchemaGenerator".
+ * See LICENSE.txt that was shipped with this package.
+ */
+
 use TYPO3\FluidSchemaGenerator\SchemaGenerator;
 use TYPO3\FluidSchemaGenerator\DocCommentParser;
 
@@ -67,6 +72,9 @@ class SchemaGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result);
     }
 
+    /**
+     * @return array
+     */
     public function getConvertPhpTypeToXsdTypeTestValues()
     {
         return [
