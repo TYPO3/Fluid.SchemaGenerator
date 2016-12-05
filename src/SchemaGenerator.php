@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3Fluid\SchemaGenerator;
+namespace TYPO3\FluidSchemaGenerator;
 
 use TYPO3\Fluid\Core\ViewHelper\ArgumentDefinition;
 use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;

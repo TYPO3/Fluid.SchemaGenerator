@@ -39,7 +39,7 @@ foreach ($namespaces as $namespace) {
 		exitWithError(sprintf('Directory "%s" does not exist but is declared in composer autoload entries', $classesPath));
 	}
 }
-$generator = new \TYPO3Fluid\SchemaGenerator\SchemaGenerator();
+$generator = new \TYPO3\FluidSchemaGenerator\SchemaGenerator();
 $xsd = $generator->generateXsd($namespaceClassPathMap);
 
 echo $xsd;

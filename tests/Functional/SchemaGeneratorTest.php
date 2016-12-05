@@ -1,7 +1,7 @@
 <?php
-namespace TYPO3Fluid\SchemaGenerator\Tests\Functional;
+namespace TYPO3\FluidSchemaGenerator\Tests\Functional;
 
-use TYPO3Fluid\SchemaGenerator\SchemaGenerator;
+use TYPO3\FluidSchemaGenerator\SchemaGenerator;
 
 /**
  * Class SchemaGeneratorTest

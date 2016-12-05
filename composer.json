@@ -1,19 +1,19 @@
 {
-	"name": "typo3fluid/schema-generator",
+	"name": "typo3/fluid-schema-generator",
 	"description": "Generates XSD schemas for packages containing Fluid ViewHelpers",
 	"license": ["MIT"],
 	"require": {
-		"typo3fluid/fluid": ">=1.0 <=2.0"
+		"typo3fluid/fluid": "^1.0|^2.0"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "4.3.*",
-		"mikey179/vfsStream": "~1.3.0",
 		"satooshi/php-coveralls": "*",
+		"phpunit/phpunit": "^5.7",
+		"mikey179/vfsStream": "^1.6",
 		"squizlabs/php_codesniffer": "^2.7"
 	},
 	"autoload": {
 		"psr-4": {
-			"TYPO3Fluid\\SchemaGenerator\\": "src/"
+			"TYPO3\\FluidSchemaGenerator\\": "src/"
 		}
 	},
 	"bin": [

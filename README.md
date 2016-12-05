@@ -12,7 +12,7 @@ Installation
 ------------
 
 ```bash
-composer require typo3fluid/schema-generator
+composer require typo3/fluid-schema-generator
 ```
 
 Usage

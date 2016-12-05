@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3Fluid\SchemaGenerator;
+namespace TYPO3\FluidSchemaGenerator;
 
 /**
  * Class ClassFinder

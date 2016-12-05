@@ -1,9 +1,8 @@
 <?php
-namespace TYPO3Fluid\SchemaGenerator\Tests\Unit;
+namespace TYPO3\FluidSchemaGenerator\Tests\Unit;
 
-use FluidTYPO3\Schemaker\Service\SchemaService;
-use TYPO3Fluid\SchemaGenerator\SchemaGenerator;
-use TYPO3Fluid\SchemaGenerator\DocCommentParser;
+use TYPO3\FluidSchemaGenerator\SchemaGenerator;
+use TYPO3\FluidSchemaGenerator\DocCommentParser;
 
 /**
  * Class SchemaGeneratorTest
@@ -51,7 +50,7 @@ class SchemaGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerateXsdErrorsWhenNoViewHelpersInPackage()
     {
-        $service = $this->getMock(SchemaGenerator::class, ['dummy']);
+        $service = $this->getMockBuilder(SchemaGenerator::class)->setMethods(['dummy'])->getMock();
         $this->setExpectedException('RuntimeException');
         $service->generateXsd(['TYPO3Fluid\\SchemaGenerator']);
     }
