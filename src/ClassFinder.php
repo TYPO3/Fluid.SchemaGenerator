@@ -1,15 +1,24 @@
 <?php
 namespace TYPO3\FluidSchemaGenerator;
 
+/*
+ * This file belongs to the package "TYPO3 FluidSchemaGenerator".
+ * See LICENSE.txt that was shipped with this package.
+ */
+
 /**
  * Class ClassFinder
+ *
+ * Finds classes in installed Composer packages.
  */
 class ClassFinder
 {
 
     /**
-     * @param $packagePaths
-     * @param $phpNamespace
+     * Get all class names in packages specified by $packagePaths.
+     *
+     * @param array $packagePaths
+     * @return array
      */
     public function getClassNamesInPackages(array $packagePaths)
     {

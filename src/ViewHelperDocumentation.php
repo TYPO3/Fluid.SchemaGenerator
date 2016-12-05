@@ -1,10 +1,18 @@
 <?php
 namespace TYPO3\FluidSchemaGenerator;
 
+/*
+ * This file belongs to the package "TYPO3 FluidSchemaGenerator".
+ * See LICENSE.txt that was shipped with this package.
+ */
+
 use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
 
 /**
  * Class ViewHelperDocumentation
+ *
+ * Wrapper to consume documentation about ViewHelpers
+ * from their source code.
  */
 class ViewHelperDocumentation
 {
