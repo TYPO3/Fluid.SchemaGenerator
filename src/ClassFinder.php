@@ -47,7 +47,9 @@ class ClassFinder
         $affectedViewHelperClassNames = [];
 
         $packagePath = rtrim($packagePath, '/') . '/';
-        $filesInPath = new \RecursiveDirectoryIterator($packagePath, \RecursiveDirectoryIterator::SKIP_DOTS);
+        $filesInPath = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($packagePath, \RecursiveDirectoryIterator::SKIP_DOTS)
+        );
         $packagePathLength = strlen($packagePath);
         foreach ($filesInPath as $filePathAndFilename) {
             $relativePath = substr($filePathAndFilename, $packagePathLength, -4);
