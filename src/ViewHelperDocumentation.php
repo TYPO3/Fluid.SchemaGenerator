@@ -6,6 +6,7 @@ namespace TYPO3\FluidSchemaGenerator;
  * See LICENSE.txt that was shipped with this package.
  */
 
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
 
 /**
@@ -23,11 +24,30 @@ class ViewHelperDocumentation
     protected $className;
 
     /**
+     * @var RenderingContextInterface|null
+     */
+    protected $renderingContext;
+
+    /**
+     * @var ViewHelperInterface
+     */
+    protected $viewHelper;
+
+    /**
      * @param string $className
      */
-    public function __construct($className)
+    public function __construct($classNameOrInstance, RenderingContextInterface $renderingContext = null)
     {
-        $this->className = $className;
+        $this->renderingContext = $renderingContext;
+        if ($classNameOrInstance instanceof ViewHelperInterface) {
+            $this->className = get_class($classNameOrInstance);
+            $this->instance = $classNameOrInstance;
+        } else {
+            $this->className = $classNameOrInstance;
+            $this->instance = $this->renderingContext ? $this->renderingContext
+                ->getViewHelperResolver()
+                ->createViewHelperInstanceFromClassName($classNameOrInstance) : new $classNameOrInstance();
+        }
     }
 
     /**
@@ -64,8 +84,6 @@ class ViewHelperDocumentation
      */
     public function getArgumentDefinitions()
     {
-        $className = $this->className;
-        $viewHelper = new $className();
-        return $viewHelper->prepareArguments();
+        return $this->instance->prepareArguments();
     }
 }

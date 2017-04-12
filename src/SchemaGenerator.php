@@ -7,6 +7,7 @@ namespace TYPO3\FluidSchemaGenerator;
  */
 
 use TYPO3\Fluid\Core\ViewHelper\ArgumentDefinition;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperResolver;
 
@@ -25,11 +26,17 @@ class SchemaGenerator
     protected $docCommentParser;
 
     /**
+     * @var RenderingContextInterface|null
+     */
+    protected $renderingContext;
+
+    /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(RenderingContextInterface $renderingContext = null)
     {
         $this->docCommentParser = new DocCommentParser();
+        $this->renderingContext = $renderingContext;
     }
 
     /**
@@ -42,10 +49,11 @@ class SchemaGenerator
      * values, e.g. an array of class paths indexed by namespace.
      *
      * @param array $namespaceClassPathMap
+     * @param callable $classLoaderFunction
      * @return string
      * @throws \Exception
      */
-    public function generateXsd(array $namespaceClassPathMap)
+    public function generateXsd(array $namespaceClassPathMap, callable $classLoaderFunction = null)
     {
         $phpNamespace = key($namespaceClassPathMap);
         $phpNamespace = rtrim($phpNamespace, '\\');
@@ -59,7 +67,12 @@ class SchemaGenerator
         $classFinder = new ClassFinder();
         $classNames = $classFinder->getClassNamesInPackages($namespaceClassPathMap);
         foreach ($classNames as $className) {
-            $this->generateXmlForClassName(new ViewHelperDocumentation($className), $xmlRootNode);
+            $this->generateXmlForClassName(
+                new ViewHelperDocumentation(
+                    $classLoaderFunction ? $classLoaderFunction($className) : $className,
+                    $this->renderingContext),
+                $xmlRootNode
+            );
         }
         return $xmlRootNode->asXML();
     }
