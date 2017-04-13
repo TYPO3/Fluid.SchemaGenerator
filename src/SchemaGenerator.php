@@ -1,20 +1,13 @@
 <?php
 namespace TYPO3\FluidSchemaGenerator;
 
-/*
- * This file belongs to the package "TYPO3 FluidSchemaGenerator".
- * See LICENSE.txt that was shipped with this package.
- */
-
 use TYPO3\Fluid\Core\ViewHelper\ArgumentDefinition;
 use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperResolver;
 
 /**
- * Schema Generator
- *
- * Generates schemas for Fluid ViewHelpers. Receives multiple
- * namespaces which are combiend to output one XSD file (source).
+ * @package Schemaker
+ * @subpackage Service
  */
 class SchemaGenerator
 {
@@ -41,12 +34,18 @@ class SchemaGenerator
      * Map must be an array of ["php\namespace" => "src/ViewHelpers"]
      * values, e.g. an array of class paths indexed by namespace.
      *
-     * @param array $namespaceClassPathMap
+     * @param array $namespaceClassPathMap A map of phpNamespace=>directory, whose paths get scanned.
+     * @param \Closure|null $classInstancingClosure Optional closure which loads a class. See the default closure for requirements.
      * @return string
      * @throws \Exception
      */
-    public function generateXsd(array $namespaceClassPathMap)
+    public function generateXsd(array $namespaceClassPathMap, \Closure $classInstancingClosure = null)
     {
+        if (!$classInstancingClosure) {
+            $classInstancingClosure = function($className, ...$arguments) {
+                return new $className(...$arguments);
+            };
+        }
         $phpNamespace = key($namespaceClassPathMap);
         $phpNamespace = rtrim($phpNamespace, '\\');
         $xsdNamespace = 'http://typo3.org/ns/' . str_replace('\\', '/', rtrim($phpNamespace, '\\'));
@@ -59,7 +58,10 @@ class SchemaGenerator
         $classFinder = new ClassFinder();
         $classNames = $classFinder->getClassNamesInPackages($namespaceClassPathMap);
         foreach ($classNames as $className) {
-            $this->generateXmlForClassName(new ViewHelperDocumentation($className), $xmlRootNode);
+            $this->generateXmlForClassName(
+                $classInstancingClosure(ViewHelperDocumentation::class, $className, $classInstancingClosure),
+                $xmlRootNode
+            );
         }
         return $xmlRootNode->asXML();
     }

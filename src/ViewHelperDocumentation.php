@@ -1,18 +1,10 @@
 <?php
 namespace TYPO3\FluidSchemaGenerator;
 
-/*
- * This file belongs to the package "TYPO3 FluidSchemaGenerator".
- * See LICENSE.txt that was shipped with this package.
- */
-
 use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
 
 /**
  * Class ViewHelperDocumentation
- *
- * Wrapper to consume documentation about ViewHelpers
- * from their source code.
  */
 class ViewHelperDocumentation
 {
@@ -23,11 +15,18 @@ class ViewHelperDocumentation
     protected $className;
 
     /**
-     * @param string $className
+     * @var \Closure
      */
-    public function __construct($className)
+    protected $classInstancingClosure;
+
+    /**
+     * @param string $className
+     * @param \Closure $classInstancingClosure
+     */
+    public function __construct($className, \Closure $classInstancingClosure)
     {
         $this->className = $className;
+        $this->classInstancingClosure = $classInstancingClosure;
     }
 
     /**
@@ -55,7 +54,8 @@ class ViewHelperDocumentation
     public function getDescription()
     {
         $reflectionClass = new \ReflectionClass($this->className);
-        $docCommentParser = new DocCommentParser();
+        $closure = $this->classInstancingClosure;
+        $docCommentParser = $closure(DocCommentParser::class);
         return $docCommentParser->parseDocComment($reflectionClass->getDocComment());
     }
 
@@ -65,7 +65,8 @@ class ViewHelperDocumentation
     public function getArgumentDefinitions()
     {
         $className = $this->className;
-        $viewHelper = new $className();
+        $closure = $this->classInstancingClosure;
+        $viewHelper = $closure($className);
         return $viewHelper->prepareArguments();
     }
 }
