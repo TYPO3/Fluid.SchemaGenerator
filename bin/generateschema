@@ -10,8 +10,12 @@ function exitWithError($message, $code = 1) {
     exit($code);
 }
 
+$pwd = trim(shell_exec('pwd'));
+
 /** @var \Composer\Autoload\ClassLoader $autoloader */
-if (file_exists(__DIR__ . '/../autoload.php')) {
+if (file_exists($pwd . '/vendor/autoload.php')) {
+    $autoloader = require_once $pwd . '/vendor/autoload.php';
+} elseif (file_exists(__DIR__ . '/../autoload.php')) {
     $autoloader = require_once __DIR__ . '/../autoload.php';
 } elseif (file_exists(__DIR__ . '/../vendor/autoload.php')) {
 	$autoloader = require_once __DIR__ . '/../vendor/autoload.php';
