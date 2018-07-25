@@ -57,7 +57,17 @@ class SchemaGenerator
         );
         $classFinder = new ClassFinder();
         $classNames = $classFinder->getClassNamesInPackages($namespaceClassPathMap);
+        $classNames = array_unique($classNames);
+
+        // Overlaying. If a class exists in multiple scopes and would result in the same XSD "name" attribute, meaning
+        // the second-and-following classes override the first, we filter the array so the resulting array only contains
+        // those exact classes that get result when you use a certain VH name in a multiple namespace scope.
+        $overlaidClassNames = [];
         foreach ($classNames as $className) {
+            $tagName = $this->getTagNameForClass($className);
+            $overlaidClassNames[$tagName] = $className;
+        }
+        foreach ($overlaidClassNames as $className) {
             $this->generateXmlForClassName(
                 $classInstancingClosure(ViewHelperDocumentation::class, $className, $classInstancingClosure),
                 $xmlRootNode
@@ -175,9 +185,7 @@ class SchemaGenerator
             case 'string':
                 return 'xsd:string';
             case 'array':
-                return 'xsd:array';
             case 'mixed':
-                return 'xsd:mixed';
             default:
                 return 'xsd:anySimpleType';
         }
