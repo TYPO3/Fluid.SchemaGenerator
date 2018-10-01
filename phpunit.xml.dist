@@ -1,28 +1,28 @@
 <phpunit bootstrap="tests/Bootstrap.php"
-	backupGlobals="false"
-        backupStaticAttributes="false"
-        colors="false"
-        convertErrorsToExceptions="true"
-        convertWarningsToExceptions="true"
-        forceCoversAnnotation="false"
-        processIsolation="false"
-        stopOnError="false"
-        stopOnFailure="false"
-        stopOnIncomplete="false"
-        stopOnSkipped="false"
-        verbose="false">
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    colors="false"
+    convertErrorsToExceptions="true"
+    convertWarningsToExceptions="true"
+    forceCoversAnnotation="false"
+    processIsolation="false"
+    stopOnError="false"
+    stopOnFailure="false"
+    stopOnIncomplete="false"
+    stopOnSkipped="false"
+    verbose="false">
 
-        <testsuites>
-                <testsuite name="TYPO3.Fluid.SchemaGenerator Unit">
-                        <directory>tests/Unit</directory>
-                </testsuite>
-                <testsuite name="TYPO3.Fluid.SchemaGenerator Functional">
-                        <directory>tests/Functional</directory>
-                </testsuite>
-        </testsuites>
-		<filter>
-				<whitelist>
-						<directory>src/</directory>
-				</whitelist>
-		</filter>
+    <testsuites>
+        <testsuite name="TYPO3.Fluid.SchemaGenerator Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="TYPO3.Fluid.SchemaGenerator Functional">
+            <directory>tests/Functional</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory>src/</directory>
+        </whitelist>
+    </filter>
 </phpunit>
