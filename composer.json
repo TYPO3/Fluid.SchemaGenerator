@@ -3,7 +3,7 @@
 	"description": "Generates XSD schemas for packages containing Fluid ViewHelpers",
 	"license": ["MIT"],
 	"require": {
-		"typo3fluid/fluid": "^2.3",
+		"typo3fluid/fluid": "^2.5",
 		"php": "^7.2"
 	},
 	"require-dev": {
