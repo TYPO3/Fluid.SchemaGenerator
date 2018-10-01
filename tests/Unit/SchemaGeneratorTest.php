@@ -10,31 +10,17 @@ use TYPO3\FluidSchemaGenerator\SchemaGenerator;
 use TYPO3\FluidSchemaGenerator\DocCommentParser;
 
 /**
- * Class SchemaGeneratorTest
+ * Test case
  */
 class SchemaGeneratorTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @test
      */
-    public function testPerformsInjections()
+    public function docCommentParserIsInjected()
     {
         $instance = new SchemaGenerator();
         $this->assertAttributeInstanceOf(DocCommentParser::class, 'docCommentParser', $instance);
-    }
-
-    /**
-     * @param string $class
-     * @param string $expected
-     * @test
-     * @dataProvider getTagNameForClassTestValues
-     */
-    public function testGetTagNameForClass($class, $expected)
-    {
-        $instance = new SchemaGenerator();
-        $result = $this->callInaccessibleMethod($instance, 'getTagNameForClass', $class);
-        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -51,25 +37,26 @@ class SchemaGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $class
+     * @param string $expected
      * @test
+     * @dataProvider getTagNameForClassTestValues
      */
-    public function testGenerateXsdErrorsWhenNoViewHelpersInPackage()
+    public function getTagNameForClassReturnsExpectedTag($class, $expected)
     {
-        $service = $this->getMockBuilder(SchemaGenerator::class)->setMethods(['dummy'])->getMock();
-        $this->setExpectedException('RuntimeException');
-        $service->generateXsd(['TYPO3Fluid\\SchemaGenerator']);
+        $instance = new SchemaGenerator();
+        $result = $this->callInaccessibleMethod($instance, 'getTagNameForClass', $class);
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * @dataProvider getConvertPhpTypeToXsdTypeTestValues
-     * @param string $input
-     * @param string $expected
+     * @test
      */
-    public function testConvertPhpTypeToXsdType($input, $expected)
+    public function generateXsdThrowsRuntimeExceptionIfNoViewHeplerIsFound()
     {
-        $instance = new SchemaGenerator();
-        $result = $this->callInaccessibleMethod($instance, 'convertPhpTypeToXsdType', $input);
-        $this->assertEquals($expected, $result);
+        $service = $this->getMockBuilder(SchemaGenerator::class)->setMethods(['dummy'])->getMock();
+        $this->expectException(\RuntimeException::class);
+        $service->generateXsd(['TYPO3Fluid\\SchemaGenerator']);
     }
 
     /**
@@ -87,6 +74,19 @@ class SchemaGeneratorTest extends \PHPUnit_Framework_TestCase
             ['array', 'xsd:array'],
             ['mixed', 'xsd:mixed'],
         ];
+    }
+
+    /**
+     * @dataProvider getConvertPhpTypeToXsdTypeTestValues
+     * @param string $input
+     * @param string $expected
+     * @test
+     */
+    public function convertPhpTypeToXsdTypeReturnsExpectedType($input, $expected)
+    {
+        $instance = new SchemaGenerator();
+        $result = $this->callInaccessibleMethod($instance, 'convertPhpTypeToXsdType', $input);
+        $this->assertEquals($expected, $result);
     }
 
     /**
