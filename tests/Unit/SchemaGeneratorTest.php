@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace TYPO3\FluidSchemaGenerator\Tests\Unit;
 
 /*
@@ -6,13 +7,14 @@ namespace TYPO3\FluidSchemaGenerator\Tests\Unit;
  * See LICENSE.txt that was shipped with this package.
  */
 
+use PHPUnit\Framework\TestCase;
 use TYPO3\FluidSchemaGenerator\SchemaGenerator;
 use TYPO3\FluidSchemaGenerator\DocCommentParser;
 
 /**
  * Test case
  */
-class SchemaGeneratorTest extends \PHPUnit_Framework_TestCase
+class SchemaGeneratorTest extends TestCase
 {
     /**
      * @test
