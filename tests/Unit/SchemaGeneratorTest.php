@@ -71,8 +71,8 @@ class SchemaGeneratorTest extends \PHPUnit_Framework_TestCase
             ['double', 'xsd:double'],
             ['boolean', 'xsd:boolean'],
             ['string', 'xsd:string'],
-            ['array', 'xsd:array'],
-            ['mixed', 'xsd:mixed'],
+            ['array', 'xsd:anySimpleType'],
+            ['mixed', 'xsd:anySimpleType'],
         ];
     }
 
