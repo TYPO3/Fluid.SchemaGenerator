@@ -6,6 +6,7 @@ namespace TYPO3\FluidSchemaGenerator;
  * See LICENSE.txt that was shipped with this package.
  */
 
+use TYPO3Fluid\Fluid\Core\ViewHelper\ArgumentDefinition;
 use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
 
 /**
@@ -13,7 +14,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
  */
 class ViewHelperDocumentation
 {
-
     /**
      * @var string
      */

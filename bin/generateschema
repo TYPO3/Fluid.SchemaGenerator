@@ -30,7 +30,7 @@ if (!isset($argv[1])) {
 }
 
 $namespaces = array_slice($argv, 1);
-$namespaceClassPathMap = array();
+$namespaceClassPathMap = [];
 $prefixes = $autoloader->getPrefixesPsr4();
 
 foreach ($namespaces as $namespace) {
