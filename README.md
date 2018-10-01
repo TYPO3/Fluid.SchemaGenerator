@@ -2,7 +2,7 @@ Fluid ViewHelper Schema Generator
 =================================
 
 [![Build Status](https://travis-ci.org/TYPO3/Fluid.SchemaGenerator.svg?branch=master)](https://travis-ci.org/TYPO3/Fluid.SchemaGenerator)
-[![Coverage](https://img.shields.io/coveralls/NamelessCoder/TYPO3.Fluid.SchemaGenerator.svg?branch=master&style=flat-square)](https://coveralls.io/r/NamelessCoder/TYPO3.Fluid.SchemaGenerator)
+[![Coverage Status](https://coveralls.io/repos/github/TYPO3/Fluid.SchemaGenerator/badge.svg)](https://coveralls.io/github/TYPO3/Fluid.SchemaGenerator)
 
 Generates nice XSD schemas for (X)HTML files which can be used in editors to enable
 autocompletion of Fluid template code. Can generate schemas for the official as
