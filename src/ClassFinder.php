@@ -13,12 +13,12 @@ namespace TYPO3\FluidSchemaGenerator;
  */
 class ClassFinder
 {
-
     /**
      * Get all class names in packages specified by $packagePaths.
      *
      * @param array $packagePaths
      * @return array
+     * @throws \RuntimeException
      */
     public function getClassNamesInPackages(array $packagePaths)
     {

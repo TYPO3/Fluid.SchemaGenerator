@@ -1,17 +1,16 @@
 <?php
 namespace TYPO3\FluidSchemaGenerator;
 
-use TYPO3\Fluid\Core\ViewHelper\ArgumentDefinition;
-use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
-use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperResolver;
+/*
+ * This file belongs to the package "TYPO3 FluidSchemaGenerator".
+ * See LICENSE.txt that was shipped with this package.
+ */
 
 /**
- * @package Schemaker
- * @subpackage Service
+ * Main worker class
  */
 class SchemaGenerator
 {
-
     /**
      * @var DocCommentParser
      */

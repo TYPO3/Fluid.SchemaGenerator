@@ -11,18 +11,19 @@ use PHPUnit\Framework\TestCase;
 use TYPO3\FluidSchemaGenerator\SchemaGenerator;
 
 /**
- * Class SchemaGeneratorTest
+ * Test case
  */
 class SchemaGeneratorTest extends TestCase
 {
-
     /**
      * @test
      */
     public function testGenerateSchema()
     {
         $generator = new SchemaGenerator();
-        $xml = $generator->generateXsd(['TYPO3Fluid\\Fluid\\ViewHelpers\\' => __DIR__ . '/../../vendor/typo3fluid/fluid/src/ViewHelpers/']);
+        $xml = $generator->generateXsd([
+            'TYPO3Fluid\\Fluid\\ViewHelpers\\' => __DIR__ . '/../../vendor/typo3fluid/fluid/src/ViewHelpers/'
+        ]);
         $this->assertStringStartsWith('<?xml', $xml);
         $this->assertStringEndsWith('</xsd:schema>' . PHP_EOL, $xml);
     }

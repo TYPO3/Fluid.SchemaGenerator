@@ -11,7 +11,6 @@ namespace TYPO3\FluidSchemaGenerator;
  */
 class DocCommentParser
 {
-
     /**
      * Parses the given doc comment and saves the result (description and
      * tags) in the parser's object. They can be retrieved by the
