@@ -24,13 +24,17 @@ class DocCommentParser
         $parsedDocComment = '';
         $lines = explode(chr(10), $docComment);
         foreach ($lines as $line) {
-            if (strlen($line) > 0 && strpos($line, '@') !== false) {
+            if ($this->isDocCommentTag($line)) {
                 continue;
-            } else {
-                $parsedDocComment .= preg_replace('/\\s*\\/?[\\\\*]*(.*)$/', '$1', $line) . chr(10);
             }
+            $parsedDocComment .= preg_replace('/\\s*\\/?[\\\\*]*(.*)$/', '$1', $line) . chr(10);
         }
         $parsedDocComment = trim($parsedDocComment);
         return $parsedDocComment;
+    }
+
+    private function isDocCommentTag(string $line)
+    {
+        return preg_match('/^\s*\*?\s*@/', $line) === 1;
     }
 }
