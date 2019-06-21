@@ -184,6 +184,7 @@ class SchemaGenerator
             case 'string':
                 return 'xsd:string';
             case 'array':
+                return 'xsd:array';
             case 'mixed':
             default:
                 return 'xsd:anySimpleType';
