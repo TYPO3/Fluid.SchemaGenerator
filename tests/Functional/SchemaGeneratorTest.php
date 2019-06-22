@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace TYPO3\FluidSchemaGenerator\Tests\Functional;
 
 /*
@@ -26,5 +27,37 @@ class SchemaGeneratorTest extends TestCase
         ]);
         $this->assertStringStartsWith('<?xml', $xml);
         $this->assertStringEndsWith('</xsd:schema>' . PHP_EOL, $xml);
+    }
+
+    /**
+     * @test This test asserts whether an argument of type object
+     */
+    public function testNamespaceImportForPHPClass()
+    {
+        $generator = new SchemaGenerator();
+        $xml = $generator->generateXsd([
+            'TYPO3\\FluidSchemaGenerator\\Tests\\Fixtures\\' => __DIR__ . '/../Fixtures'
+        ]);
+        $this->assertStringContainsString('<xsd:import schemaLocation="php.xsd" namespace="php/types"/>', $xml);
+    }
+
+    public function testNamespacePrefixTag()
+    {
+
+    }
+
+    public function testTypeReferencingPrefixTag()
+    {
+
+    }
+
+    public function testGeneratePHPNamespaceFile()
+    {
+
+    }
+
+    public function testMatchingTargetNamespaceDeclaration()
+    {
+
     }
 }

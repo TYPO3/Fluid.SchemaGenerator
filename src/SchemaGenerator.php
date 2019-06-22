@@ -1,4 +1,5 @@
 <?php
+
 namespace TYPO3\FluidSchemaGenerator;
 
 /*
@@ -15,6 +16,7 @@ class SchemaGenerator
      * @var DocCommentParser
      */
     protected $docCommentParser;
+    private $containsPHPClass = false;
 
     /**
      * Constructor
@@ -41,7 +43,7 @@ class SchemaGenerator
     public function generateXsd(array $namespaceClassPathMap, \Closure $classInstancingClosure = null)
     {
         if (!$classInstancingClosure) {
-            $classInstancingClosure = function($className, ...$arguments) {
+            $classInstancingClosure = function ($className, ...$arguments) {
                 return new $className(...$arguments);
             };
         }
@@ -71,6 +73,11 @@ class SchemaGenerator
                 $classInstancingClosure(ViewHelperDocumentation::class, $className, $classInstancingClosure),
                 $xmlRootNode
             );
+        }
+        if ($this->containsPHPClass) {
+            $importNode = $xmlRootNode->addChild('xsd:import');
+            $importNode->addAttribute('schemaLocation', 'php.xsd');
+            $importNode->addAttribute('namespace', 'php/typs');
         }
         return $xmlRootNode->asXML();
     }
@@ -172,6 +179,9 @@ class SchemaGenerator
      */
     protected function convertPhpTypeToXsdType($type)
     {
+        if (class_exists($type) || interface_exists($type)) {
+            $this->containsPHPClass = true;
+        }
         switch ($type) {
             case 'integer':
                 return 'xsd:integer';

@@ -15,6 +15,11 @@
 			"TYPO3\\FluidSchemaGenerator\\": "src/"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"TYPO3\\FluidSchemaGenerator\\Tests\\": "tests/"
+		}
+	},
 	"bin": [
 		"bin/generateschema"
 	]
