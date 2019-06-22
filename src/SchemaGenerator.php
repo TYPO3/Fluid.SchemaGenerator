@@ -16,28 +16,32 @@ class SchemaGenerator
      * @var DocCommentParser
      */
     protected $docCommentParser;
-    private $containsPHPClass = false;
+    private $containsPHPClasses = [];
+    private $schemaFilePath = '';
+    private $namespaceFilePath = '';
 
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($schemaFilePath, $namespaceFilePath)
     {
         $this->docCommentParser = new DocCommentParser();
+        $this->schemaFilePath = $schemaFilePath;
+        $this->namespaceFilePath = $namespaceFilePath;
     }
 
     /**
      * Generate the XML Schema definition for a given namespace.
      * It will generate an XSD file for all view helpers in this namespace.
      * The first provided namespace is used when determining the XSD
-     * namespace URL that gets recored in the output schema.
+     * namespace URL that gets recorded in the output schema.
      *
      * Map must be an array of ["php\namespace" => "src/ViewHelpers"]
      * values, e.g. an array of class paths indexed by namespace.
      *
      * @param array $namespaceClassPathMap A map of phpNamespace=>directory, whose paths get scanned.
      * @param \Closure|null $classInstancingClosure Optional closure which loads a class. See the default closure for requirements.
-     * @return string
+     * @return void
      * @throws \Exception
      */
     public function generateXsd(array $namespaceClassPathMap, \Closure $classInstancingClosure = null)
@@ -74,12 +78,32 @@ class SchemaGenerator
                 $xmlRootNode
             );
         }
-        if ($this->containsPHPClass) {
+        if ($this->containsPHPClasses !== []) {
             $importNode = $xmlRootNode->addChild('xsd:import');
             $importNode->addAttribute('schemaLocation', 'php.xsd');
-            $importNode->addAttribute('namespace', 'php/typs');
+            $importNode->addAttribute('namespace', 'php/types');
+            $this->generatePhpNamespaceXSD();
+            //$xmlRootNode->addAttribute('xmlns:php', 'php/types', 'php');
         }
-        return $xmlRootNode->asXML();
+        $xmlRootNode->asXML($this->schemaFilePath);
+    }
+
+    protected function generatePhpNamespaceXSD()
+    {
+        $xmlRootNode = new \SimpleXMLElement(
+            '<?xml version="1.0" encoding="UTF-8"?>
+			<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+				        targetNamespace="php/namespace"
+				        elementFormDefault="qualified">
+			</xsd:schema>');
+
+        foreach ($this->containsPHPClasses as $typeName) {
+            $type = $xmlRootNode->addChild('xsd:simpleType');
+            $type->addAttribute('name', $typeName);
+            $restriction = $type->addChild('xsd:restriction');
+            $restriction->addAttribute('base', 'xsd:string');
+        }
+        $xmlRootNode->asXML($this->namespaceFilePath);
     }
 
     /**
@@ -180,7 +204,7 @@ class SchemaGenerator
     protected function convertPhpTypeToXsdType($type)
     {
         if (class_exists($type) || interface_exists($type)) {
-            $this->containsPHPClass = true;
+            $this->containsPHPClasses[] = $type;
             return "php:$type";
         }
         switch ($type) {

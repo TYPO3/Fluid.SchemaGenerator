@@ -45,6 +45,7 @@ foreach ($namespaces as $namespace) {
         ));
     }
 }
+//TODO: We need to generate two separate files to import the namespace.xsd into the schema.xsd. Therefore echo should be removed.
 $generator = new \TYPO3\FluidSchemaGenerator\SchemaGenerator();
 $xsd = $generator->generateXsd($namespaceClassPathMap);
 
