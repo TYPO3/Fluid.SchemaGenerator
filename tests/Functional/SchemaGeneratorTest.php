@@ -46,9 +46,13 @@ class SchemaGeneratorTest extends TestCase
 
     }
 
-    public function testTypeReferencingPrefixTag()
+    public function testPrefixedType()
     {
-
+        $generator = new SchemaGenerator();
+        $xml = $generator->generateXsd([
+            'TYPO3\\FluidSchemaGenerator\\Tests\\Fixtures\\' => __DIR__ . '/../Fixtures'
+        ]);
+        $this->assertStringContainsString('<xsd:attribute type="php:ArrayAccess" name="objects" default="NULL" use="required">', $xml);
     }
 
     public function testGeneratePHPNamespaceFile()

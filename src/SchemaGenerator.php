@@ -181,6 +181,7 @@ class SchemaGenerator
     {
         if (class_exists($type) || interface_exists($type)) {
             $this->containsPHPClass = true;
+            return "php:$type";
         }
         switch ($type) {
             case 'integer':
