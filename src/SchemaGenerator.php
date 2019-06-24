@@ -82,8 +82,8 @@ class SchemaGenerator
             $importNode = $xmlRootNode->addChild('xsd:import');
             $importNode->addAttribute('schemaLocation', 'php.xsd');
             $importNode->addAttribute('namespace', 'php/types');
+            $xmlRootNode->addAttribute('xlmns:xlmns:php', 'php/types');
             $this->generatePhpNamespaceXSD();
-            //$xmlRootNode->addAttribute('xmlns:php', 'php/types', 'php');
         }
         $xmlRootNode->asXML($this->schemaFilePath);
     }

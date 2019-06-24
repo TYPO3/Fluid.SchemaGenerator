@@ -47,9 +47,6 @@ class SchemaGeneratorTest extends TestCase
         $this->assertStringEndsWith('</xsd:schema>' . PHP_EOL, $xml);
     }
 
-    /**
-     * @test This test asserts whether an argument of type object
-     */
     public function testNamespaceImportForPHPClass()
     {
         $generator = new SchemaGenerator(__DIR__ . '/../Generated/schema.xsd', __DIR__ . '/../Generated/phpNamespace.xsd');
@@ -62,13 +59,12 @@ class SchemaGeneratorTest extends TestCase
 
     public function testNamespacePrefixTag()
     {
-        $this->markTestIncomplete('We have to figure out how to add namespace argument to xsd:schema tag correctly.');
         $generator = new SchemaGenerator(__DIR__ . '/../Generated/schema.xsd', __DIR__ . '/../Generated/phpNamespace.xsd');
         $generator->generateXsd([
             'TYPO3\\FluidSchemaGenerator\\Tests\\Fixtures\\' => __DIR__ . '/../Fixtures'
         ]);
         $xml = file_get_contents(__DIR__ . '/../Generated/schema.xsd');
-        $this->assertStringContainsString('xmlns:php="php/type"', $xml);
+        $this->assertStringContainsString('xlmns:php="php/types"', $xml);
     }
 
     public function testPrefixedType()
