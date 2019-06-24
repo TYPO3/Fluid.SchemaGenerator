@@ -88,11 +88,14 @@ class SchemaGeneratorTest extends TestCase
             'TYPO3\\FluidSchemaGenerator\\Tests\\Fixtures\\' => __DIR__ . '/../Fixtures'
         ]);
         $this->assertFileExists(__DIR__ . '/../Generated/phpNamespace.xsd');
-        $this->assertFileEquals(__DIR__ . '/../Expected/phpNamespace.xsd', __DIR__ . '/../Generated/phpNamespace.xsd');
     }
 
-    public function testMatchingTargetNamespaceDeclaration()
+    public function testNamespaceFormat()
     {
-        $this->markTestIncomplete('can only be tested after both schema and namespace files are written');
+        $generator = new SchemaGenerator(__DIR__ . '/../Generated/schema.xsd', __DIR__ . '/../Generated/phpNamespace.xsd');
+        $generator->generateXsd([
+            'TYPO3\\FluidSchemaGenerator\\Tests\\Fixtures\\' => __DIR__ . '/../Fixtures'
+        ]);
+        $this->assertFileEquals(__DIR__ . '/../Expected/phpNamespace.xsd', __DIR__ . '/../Generated/phpNamespace.xsd');
     }
 }
