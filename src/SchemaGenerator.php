@@ -80,9 +80,9 @@ class SchemaGenerator
         }
         if ($this->containsPHPClasses !== []) {
             $importNode = $xmlRootNode->addChild('xsd:import');
-            $importNode->addAttribute('schemaLocation', 'php.xsd');
+            $importNode->addAttribute('schemaLocation', 'phpNamespace.xsd');
             $importNode->addAttribute('namespace', 'php/types');
-            $xmlRootNode->addAttribute('xlmns:xlmns:php', 'php/types');
+            $xmlRootNode->addAttribute('xmlns:xmlns:php', 'php/types');
             $this->generatePhpNamespaceXSD();
         }
         $xmlRootNode->asXML($this->schemaFilePath);
@@ -93,7 +93,7 @@ class SchemaGenerator
         $xmlRootNode = new \SimpleXMLElement(
             '<?xml version="1.0" encoding="UTF-8"?>
 			<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-				        targetNamespace="php/namespace"
+				        targetNamespace="php/types"
 				        elementFormDefault="qualified">
 			</xsd:schema>');
 

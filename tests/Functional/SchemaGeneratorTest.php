@@ -54,7 +54,7 @@ class SchemaGeneratorTest extends TestCase
             'TYPO3\\FluidSchemaGenerator\\Tests\\Fixtures\\' => __DIR__ . '/../Fixtures'
         ]);
         $xml = file_get_contents(__DIR__ . '/../Generated/schema.xsd');
-        $this->assertStringContainsString('<xsd:import schemaLocation="php.xsd" namespace="php/types"/>', $xml);
+        $this->assertStringContainsString('<xsd:import schemaLocation="phpNamespace.xsd" namespace="php/types"/>', $xml);
     }
 
     public function testNamespacePrefixTag()
@@ -64,7 +64,7 @@ class SchemaGeneratorTest extends TestCase
             'TYPO3\\FluidSchemaGenerator\\Tests\\Fixtures\\' => __DIR__ . '/../Fixtures'
         ]);
         $xml = file_get_contents(__DIR__ . '/../Generated/schema.xsd');
-        $this->assertStringContainsString('xlmns:php="php/types"', $xml);
+        $this->assertStringContainsString('xmlns:php="php/types"', $xml);
     }
 
     public function testPrefixedType()
