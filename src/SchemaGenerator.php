@@ -22,6 +22,8 @@ class SchemaGenerator
 
     /**
      * Constructor
+     * @param string $schemaFilePath Path where generateXsd() writes the schema.xsd file to
+     * @param string $namespaceFilePath Path where generatePhpNamespaceXSD() writes the phpNamespace.xsd file to
      */
     public function __construct($schemaFilePath, $namespaceFilePath)
     {
