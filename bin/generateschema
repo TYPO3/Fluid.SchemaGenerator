@@ -26,10 +26,18 @@ if (file_exists($pwd . '/vendor/autoload.php')) {
 }
 
 if (!isset($argv[1])) {
+    exitWithError('You must specify the output file for XSD schema as first argument.');
+}
+
+if (!isset($argv[2])) {
+    exitWithError('You must specify the output file for PHP types as second argument.');
+}
+
+if (!isset($argv[3])) {
     exitWithError('You must specify at least one composer PSR-4 root namespace for which to build ViewHelpers');
 }
 
-$namespaces = array_slice($argv, 1);
+$namespaces = array_slice($argv, 3);
 $namespaceClassPathMap = [];
 $prefixes = $autoloader->getPrefixesPsr4();
 
@@ -45,8 +53,6 @@ foreach ($namespaces as $namespace) {
         ));
     }
 }
-//TODO: We need to generate two separate files to import the namespace.xsd into the schema.xsd. Therefore echo should be removed.
-$generator = new \TYPO3\FluidSchemaGenerator\SchemaGenerator();
-$xsd = $generator->generateXsd($namespaceClassPathMap);
 
-echo $xsd;
+$generator = new \TYPO3\FluidSchemaGenerator\SchemaGenerator($argv[1], $argv[2]);
+$generator->generateXsd($namespaceClassPathMap);
