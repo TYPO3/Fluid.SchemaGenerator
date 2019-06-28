@@ -54,11 +54,11 @@ class SchemaGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function generateXsdThrowsRuntimeExceptionIfNoViewHeplerIsFound()
+    public function generateXsdThrowsRuntimeExceptionIfNoViewHelperIsFound()
     {
-        $service = $this->getMockBuilder(SchemaGenerator::class)->setMethods(['dummy'])->getMock();
+        $instance = new SchemaGenerator(__DIR__ . '/../Generated/schema.xsd', __DIR__ . '/../Generated/phpNamespace.xsd');
         $this->expectException(\RuntimeException::class);
-        $service->generateXsd(['TYPO3Fluid\\SchemaGenerator']);
+        $instance->generateXsd(['TYPO3Fluid\\SchemaGenerator']);
     }
 
     /**
