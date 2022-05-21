@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -10,7 +11,6 @@ namespace TYPO3\FluidSchemaGenerator\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use TYPO3\FluidSchemaGenerator\SchemaGenerator;
-use TYPO3\FluidSchemaGenerator\DocCommentParser;
 
 class SchemaGeneratorTest extends TestCase
 {

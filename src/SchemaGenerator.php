@@ -1,4 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
+/*
+ * This file belongs to the package "TYPO3 FluidSchemaGenerator".
+ * See LICENSE.txt that was shipped with this package.
+ */
+
 namespace TYPO3\FluidSchemaGenerator;
 
 /*
@@ -41,7 +49,7 @@ class SchemaGenerator
     public function generateXsd(array $namespaceClassPathMap, \Closure $classInstancingClosure = null)
     {
         if (!$classInstancingClosure) {
-            $classInstancingClosure = function($className, ...$arguments) {
+            $classInstancingClosure = function ($className, ...$arguments) {
                 return new $className(...$arguments);
             };
         }
@@ -119,7 +127,6 @@ class SchemaGenerator
      *
      * @param ViewHelperDocumentation $documentation Class name to generate the schema for.
      * @param \SimpleXMLElement $xmlRootNode XML root node where the xsd:element is appended.
-     * @return void
      */
     protected function generateXmlForClassName(ViewHelperDocumentation $documentation, \SimpleXMLElement $xmlRootNode)
     {
@@ -148,7 +155,6 @@ class SchemaGenerator
      *
      * @param string $className Class name where to add the attribute descriptions
      * @param \SimpleXMLElement $xsdElement XML element to add the attributes to.
-     * @return void
      */
     protected function addAttributes(ViewHelperDocumentation $documentation, \SimpleXMLElement $xsdElement)
     {
@@ -195,7 +201,6 @@ class SchemaGenerator
      *
      * @param string $documentation Documentation string to add.
      * @param \SimpleXMLElement $xsdParentNode Node to add the documentation to
-     * @return void
      */
     protected function addDocumentation($documentation, \SimpleXMLElement $xsdParentNode)
     {
