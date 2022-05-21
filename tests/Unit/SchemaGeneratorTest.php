@@ -14,6 +14,9 @@ use TYPO3\FluidSchemaGenerator\SchemaGenerator;
 
 class SchemaGeneratorTest extends TestCase
 {
+    /**
+     * @return array<int, array<int, string>>
+     */
     public function getTagNameForClassTestValues(): array
     {
         return [
@@ -42,9 +45,12 @@ class SchemaGeneratorTest extends TestCase
     {
         $service = $this->getMockBuilder(SchemaGenerator::class)->setMethods(['dummy'])->getMock();
         $this->expectException(\RuntimeException::class);
-        $service->generateXsd(['TYPO3Fluid\\SchemaGenerator']);
+        $service->generateXsd(['foo' => 'TYPO3Fluid\\SchemaGenerator']);
     }
 
+    /**
+     * @return array<int, array<int, string>>
+     */
     public function getConvertPhpTypeToXsdTypeTestValues(): array
     {
         return [

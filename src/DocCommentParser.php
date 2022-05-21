@@ -9,11 +9,6 @@ declare(strict_types=1);
 
 namespace TYPO3\FluidSchemaGenerator;
 
-/*
- * This file belongs to the package "TYPO3 FluidSchemaGenerator".
- * See LICENSE.txt that was shipped with this package.
- */
-
 /**
  * A little parser which creates tag objects from doc comments
  */
@@ -26,7 +21,7 @@ class DocCommentParser
      *
      * @param string $docComment A doc comment as returned by the reflection getDocComment() method
      */
-    public function parseDocComment($docComment)
+    public function parseDocComment(string $docComment): string
     {
         $parsedDocComment = '';
         $lines = explode(chr(10), $docComment);
@@ -40,7 +35,7 @@ class DocCommentParser
         return $parsedDocComment;
     }
 
-    private function isDocCommentTag(string $line)
+    private function isDocCommentTag(string $line): bool
     {
         return preg_match('/^\s*\*?\s*@/', $line) === 1;
     }

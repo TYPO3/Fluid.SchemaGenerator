@@ -9,11 +9,6 @@ declare(strict_types=1);
 
 namespace TYPO3\FluidSchemaGenerator;
 
-/*
- * This file belongs to the package "TYPO3 FluidSchemaGenerator".
- * See LICENSE.txt that was shipped with this package.
- */
-
 use TYPO3Fluid\Fluid\Core\ViewHelper\ArgumentDefinition;
 use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
 
@@ -23,7 +18,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
 class ViewHelperDocumentation
 {
     /**
-     * @var string
+     * @var class-string
      */
     protected $className;
 
@@ -33,38 +28,30 @@ class ViewHelperDocumentation
     protected $classInstancingClosure;
 
     /**
-     * @param string $className
+     * @param class-string $className
      * @param \Closure $classInstancingClosure
      */
-    public function __construct($className, \Closure $classInstancingClosure)
+    public function __construct(string $className, \Closure $classInstancingClosure)
     {
         $this->className = $className;
         $this->classInstancingClosure = $classInstancingClosure;
     }
 
-    /**
-     * @return string
-     */
-    public function getClass()
+    public function getClass(): string
     {
         return $this->className;
     }
 
     /**
      * Returns TRUE if the class should be included in the schema, FALSE otherwise.
-     *
-     * @return bool
      */
-    public function isIncluded()
+    public function isIncluded(): bool
     {
         $reflectionClass = new \ReflectionClass($this->className);
         return $reflectionClass->implementsInterface(ViewHelperInterface::class);
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         $reflectionClass = new \ReflectionClass($this->className);
         $closure = $this->classInstancingClosure;
@@ -75,7 +62,7 @@ class ViewHelperDocumentation
     /**
      * @return ArgumentDefinition[]
      */
-    public function getArgumentDefinitions()
+    public function getArgumentDefinitions(): array
     {
         $className = $this->className;
         $closure = $this->classInstancingClosure;

@@ -9,14 +9,7 @@ declare(strict_types=1);
 
 namespace TYPO3\FluidSchemaGenerator;
 
-/*
- * This file belongs to the package "TYPO3 FluidSchemaGenerator".
- * See LICENSE.txt that was shipped with this package.
- */
-
 /**
- * Class ClassFinder
- *
  * Finds classes in installed Composer packages.
  */
 class ClassFinder
@@ -24,11 +17,11 @@ class ClassFinder
     /**
      * Get all class names in packages specified by $packagePaths.
      *
-     * @param array $packagePaths
-     * @return array
+     * @param array<string, string> $packagePaths
+     * @return array<int, string>
      * @throws \RuntimeException
      */
-    public function getClassNamesInPackages(array $packagePaths)
+    public function getClassNamesInPackages(array $packagePaths): array
     {
         $classNames = [];
         foreach ($packagePaths as $namespace => $classesPath) {
@@ -47,9 +40,9 @@ class ClassFinder
      *
      * @param string $packagePath
      * @param string $phpNamespace
-     * @return array
+     * @return array<int, string>
      */
-    public function getClassNamesInPackage($packagePath, $phpNamespace)
+    public function getClassNamesInPackage(string $packagePath, string $phpNamespace): array
     {
         $allViewHelperClassNames = [];
         $affectedViewHelperClassNames = [];
@@ -60,6 +53,7 @@ class ClassFinder
         );
         $packagePathLength = strlen($packagePath);
         foreach ($filesInPath as $filePathAndFilename) {
+            /** @var \RecursiveDirectoryIterator $filePathAndFilename */
             $relativePath = substr((string)$filePathAndFilename, $packagePathLength, -4);
             $classLocation = str_replace('/', '\\', $relativePath);
             $className = $phpNamespace . $classLocation;
