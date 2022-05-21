@@ -60,7 +60,7 @@ class ClassFinder
         );
         $packagePathLength = strlen($packagePath);
         foreach ($filesInPath as $filePathAndFilename) {
-            $relativePath = substr($filePathAndFilename, $packagePathLength, -4);
+            $relativePath = substr((string)$filePathAndFilename, $packagePathLength, -4);
             $classLocation = str_replace('/', '\\', $relativePath);
             $className = $phpNamespace . $classLocation;
             if (class_exists($className)) {
