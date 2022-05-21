@@ -37,9 +37,6 @@ class SchemaGenerator
      */
     public function generateXsd(array $namespaceClassPathMap): string
     {
-        $classInstancingClosure = function ($className, ...$arguments) {
-            return new $className(...$arguments);
-        };
         $phpNamespace = key($namespaceClassPathMap);
         $phpNamespace = rtrim((string)$phpNamespace, '\\');
         $xsdNamespace = 'http://typo3.org/ns/' . str_replace('\\', '/', rtrim($phpNamespace, '\\'));
@@ -62,10 +59,7 @@ class SchemaGenerator
             $overlaidClassNames[$tagName] = $className;
         }
         foreach ($overlaidClassNames as $className) {
-            $this->generateXmlForClassName(
-                $classInstancingClosure(ViewHelperDocumentation::class, $className, $classInstancingClosure),
-                $xmlRootNode
-            );
+            $this->generateXmlForClassName(new ViewHelperDocumentation($className), $xmlRootNode);
         }
         $schema = $xmlRootNode->asXML();
         if ($schema === false) {

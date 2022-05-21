@@ -23,18 +23,11 @@ class ViewHelperDocumentation
     protected $className;
 
     /**
-     * @var \Closure
-     */
-    protected $classInstancingClosure;
-
-    /**
      * @param class-string $className
-     * @param \Closure $classInstancingClosure
      */
-    public function __construct(string $className, \Closure $classInstancingClosure)
+    public function __construct(string $className)
     {
         $this->className = $className;
-        $this->classInstancingClosure = $classInstancingClosure;
     }
 
     public function getClass(): string
@@ -54,9 +47,11 @@ class ViewHelperDocumentation
     public function getDescription(): string
     {
         $reflectionClass = new \ReflectionClass($this->className);
-        $closure = $this->classInstancingClosure;
-        $docCommentParser = $closure(DocCommentParser::class);
-        return $docCommentParser->parseDocComment($reflectionClass->getDocComment());
+        $docComment = $reflectionClass->getDocComment();
+        if ($docComment) {
+            return (new DocCommentParser())->parseDocComment($docComment);
+        }
+        return '';
     }
 
     /**
@@ -65,8 +60,14 @@ class ViewHelperDocumentation
     public function getArgumentDefinitions(): array
     {
         $className = $this->className;
-        $closure = $this->classInstancingClosure;
-        $viewHelper = $closure($className);
+        // We are reflecting the class here and instantiate it without calling __construct()
+        // to avoid especially DI requirements. This has the advantage that we can simply call
+        // VH's prepareArguments() which typically does not use DI, but still fetch arguments
+        // from the entire inheritance chain of the VH in question and thus retrieve the full
+        // aruments array.
+        $viewHelperReflection = new \ReflectionClass($className);
+        /** @var ViewHelperInterface $viewHelper */
+        $viewHelper = $viewHelperReflection->newInstanceWithoutConstructor();
         return $viewHelper->prepareArguments();
     }
 }
