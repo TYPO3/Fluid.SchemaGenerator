@@ -1,4 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
+/*
+ * This file belongs to the package "TYPO3 FluidSchemaGenerator".
+ * See LICENSE.txt that was shipped with this package.
+ */
+
 namespace TYPO3\FluidSchemaGenerator;
 
 /*
@@ -45,7 +53,7 @@ class ViewHelperDocumentation
     /**
      * Returns TRUE if the class should be included in the schema, FALSE otherwise.
      *
-     * @return boolean
+     * @return bool
      */
     public function isIncluded()
     {
