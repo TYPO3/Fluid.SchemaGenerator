@@ -1,7 +1,7 @@
 Fluid ViewHelper Schema Generator
 =================================
 
-[![Build Status](https://travis-ci.org/TYPO3/Fluid.SchemaGenerator.svg?branch=master)](https://travis-ci.org/TYPO3/Fluid.SchemaGenerator)
+[![Tests](https://github.com/lolli42/Fluid.SchemaGenerator/actions/workflows/tests.yml/badge.svg)](https://github.com/lolli42/Fluid.SchemaGenerator/actions/workflows/tests.yml)
 
 What does it do?
 ----------------
