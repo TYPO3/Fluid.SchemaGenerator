@@ -6,8 +6,8 @@
 		"php": "^7.2"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "^7.3",
-		"typo3fluid/fluid": "^2.6.10"
+		"typo3fluid/fluid": "^2.6.10",
+		"phpunit/phpunit": "^8.5"
 	},
 	"autoload": {
 		"psr-4": {

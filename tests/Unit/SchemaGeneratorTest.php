@@ -17,15 +17,6 @@ use TYPO3\FluidSchemaGenerator\DocCommentParser;
 class SchemaGeneratorTest extends TestCase
 {
     /**
-     * @test
-     */
-    public function docCommentParserIsInjected()
-    {
-        $instance = new SchemaGenerator();
-        $this->assertAttributeInstanceOf(DocCommentParser::class, 'docCommentParser', $instance);
-    }
-
-    /**
      * @return array
      */
     public function getTagNameForClassTestValues()
