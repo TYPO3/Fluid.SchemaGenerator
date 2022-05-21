@@ -6,7 +6,6 @@
 		"php": "^7.2"
 	},
 	"require-dev": {
-		"php-coveralls/php-coveralls": "^2.1",
 		"phpunit/phpunit": "^7.3",
 		"typo3fluid/fluid": "^2.5"
 	},

@@ -2,7 +2,6 @@ Fluid ViewHelper Schema Generator
 =================================
 
 [![Build Status](https://travis-ci.org/TYPO3/Fluid.SchemaGenerator.svg?branch=master)](https://travis-ci.org/TYPO3/Fluid.SchemaGenerator)
-[![Coverage Status](https://coveralls.io/repos/github/TYPO3/Fluid.SchemaGenerator/badge.svg)](https://coveralls.io/github/TYPO3/Fluid.SchemaGenerator)
 
 What does it do?
 ----------------
