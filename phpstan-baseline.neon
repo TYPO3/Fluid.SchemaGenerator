@@ -1,0 +1,101 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: src/ClassFinder.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\ClassFinder\\:\\:getClassNamesInPackage\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/ClassFinder.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\ClassFinder\\:\\:getClassNamesInPackages\\(\\) has parameter \\$packagePaths with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/ClassFinder.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\ClassFinder\\:\\:getClassNamesInPackages\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/ClassFinder.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\DocCommentParser\\:\\:isDocCommentTag\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/DocCommentParser.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\DocCommentParser\\:\\:parseDocComment\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/DocCommentParser.php
+
+		-
+			message: "#^Cannot call method importNode\\(\\) on DOMDocument\\|null\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\SchemaGenerator\\:\\:addAttributes\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\SchemaGenerator\\:\\:addChildWithCData\\(\\) should return SimpleXMLElement but returns SimpleXMLElement\\|null\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\SchemaGenerator\\:\\:addDocumentation\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\SchemaGenerator\\:\\:generateXmlForClassName\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\SchemaGenerator\\:\\:generateXsd\\(\\) has parameter \\$namespaceClassPathMap with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\SchemaGenerator\\:\\:generateXsd\\(\\) should return string but returns string\\|false\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$className$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^Parameter \\#3 \\$childNodeValue of method TYPO3\\\\FluidSchemaGenerator\\\\SchemaGenerator\\:\\:addChildWithCData\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^Parameter \\#3 \\$subject of function preg_replace expects array\\|string, string\\|null given\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^SimpleXMLElement does not accept string\\.$#"
+			count: 8
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^Parameter \\#1 \\$objectOrClass of class ReflectionClass constructor expects class\\-string\\<T of object\\>\\|T of object, string given\\.$#"
+			count: 2
+			path: src/ViewHelperDocumentation.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\Tests\\\\Unit\\\\SchemaGeneratorTest\\:\\:getConvertPhpTypeToXsdTypeTestValues\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/SchemaGeneratorTest.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\Tests\\\\Unit\\\\SchemaGeneratorTest\\:\\:getTagNameForClassTestValues\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/SchemaGeneratorTest.php

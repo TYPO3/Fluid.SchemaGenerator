@@ -8,7 +8,8 @@
 	"require-dev": {
 		"typo3fluid/fluid": "^2.6.10",
 		"phpunit/phpunit": "^8.5 || ^9.5",
-		"friendsofphp/php-cs-fixer": "^3.4"
+		"friendsofphp/php-cs-fixer": "^3.4",
+		"phpstan/phpstan": "^1.6"
 	},
 	"autoload": {
 		"psr-4": {
