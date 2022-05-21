@@ -9,11 +9,6 @@ declare(strict_types=1);
 
 namespace TYPO3\FluidSchemaGenerator;
 
-/*
- * This file belongs to the package "TYPO3 FluidSchemaGenerator".
- * See LICENSE.txt that was shipped with this package.
- */
-
 /**
  * Main worker class
  */
@@ -24,9 +19,6 @@ class SchemaGenerator
      */
     protected $docCommentParser;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->docCommentParser = new DocCommentParser();
@@ -41,12 +33,10 @@ class SchemaGenerator
      * Map must be an array of ["php\namespace" => "src/ViewHelpers"]
      * values, e.g. an array of class paths indexed by namespace.
      *
-     * @param array $namespaceClassPathMap A map of phpNamespace=>directory, whose paths get scanned.
+     * @param array<string, string> $namespaceClassPathMap A map of phpNamespace=>directory, whose paths get scanned.
      * @param \Closure|null $classInstancingClosure Optional closure which loads a class. See the default closure for requirements.
-     * @return string
-     * @throws \Exception
      */
-    public function generateXsd(array $namespaceClassPathMap, \Closure $classInstancingClosure = null)
+    public function generateXsd(array $namespaceClassPathMap, \Closure $classInstancingClosure = null): string
     {
         if (!$classInstancingClosure) {
             $classInstancingClosure = function ($className, ...$arguments) {
@@ -80,18 +70,19 @@ class SchemaGenerator
                 $xmlRootNode
             );
         }
-        return $xmlRootNode->asXML();
+        $schema = $xmlRootNode->asXML();
+        if ($schema === false) {
+            throw new \RuntimeException('Invalid schema generated for unknown reasons', 1653150427);
+        }
+        return (string)$xmlRootNode->asXML();
     }
 
     /**
      * Get a tag name for a given ViewHelper class.
      * Example: For the View Helper Tx_Fluid_ViewHelpers_Form_SelectViewHelper, and the
      * namespace prefix Tx_Fluid_ViewHelpers, this method returns "form.select".
-     *
-     * @param string $className Class name
-     * @return string
      */
-    protected function getTagNameForClass($className)
+    protected function getTagNameForClass(string $className): string
     {
         $separator = false !== strpos($className, '\\') ? '\\' : '_';
         $className = substr($className, 0, -10);
@@ -111,7 +102,7 @@ class SchemaGenerator
      * @param string $childNodeValue Value of the child node. Will be placed inside CDATA.
      * @return \SimpleXMLElement the new element
      */
-    protected function addChildWithCData(\SimpleXMLElement $parentXmlNode, $childNodeName, $childNodeValue)
+    protected function addChildWithCData(\SimpleXMLElement $parentXmlNode, string $childNodeName, string $childNodeValue): \SimpleXMLElement
     {
         $parentDomNode = dom_import_simplexml($parentXmlNode);
         $domDocument = new \DOMDocument();
@@ -119,7 +110,8 @@ class SchemaGenerator
         $childNode->appendChild($domDocument->createCDATASection($childNodeValue));
         $childNodeTarget = $parentDomNode->ownerDocument->importNode($childNode, true);
         $parentDomNode->appendChild($childNodeTarget);
-        return simplexml_import_dom($childNodeTarget);
+        $result = simplexml_import_dom($childNodeTarget);
+        return $result;
     }
 
     /**
@@ -128,7 +120,7 @@ class SchemaGenerator
      * @param ViewHelperDocumentation $documentation Class name to generate the schema for.
      * @param \SimpleXMLElement $xmlRootNode XML root node where the xsd:element is appended.
      */
-    protected function generateXmlForClassName(ViewHelperDocumentation $documentation, \SimpleXMLElement $xmlRootNode)
+    protected function generateXmlForClassName(ViewHelperDocumentation $documentation, \SimpleXMLElement $xmlRootNode): void
     {
         if ($documentation->isIncluded()) {
             $tagName = $this->getTagNameForClass($documentation->getClass());
@@ -153,10 +145,9 @@ class SchemaGenerator
      * Add attribute descriptions to a given tag.
      * Initializes the view helper and its arguments, and then reads out the list of arguments.
      *
-     * @param string $className Class name where to add the attribute descriptions
      * @param \SimpleXMLElement $xsdElement XML element to add the attributes to.
      */
-    protected function addAttributes(ViewHelperDocumentation $documentation, \SimpleXMLElement $xsdElement)
+    protected function addAttributes(ViewHelperDocumentation $documentation, \SimpleXMLElement $xsdElement): void
     {
         foreach ($documentation->getArgumentDefinitions() as $argumentDefinition) {
             $default = $argumentDefinition->getDefaultValue();
@@ -172,11 +163,7 @@ class SchemaGenerator
         }
     }
 
-    /**
-     * @param string $type
-     * @return string
-     */
-    protected function convertPhpTypeToXsdType($type)
+    protected function convertPhpTypeToXsdType(string $type): string
     {
         switch ($type) {
             case 'integer':
@@ -202,10 +189,10 @@ class SchemaGenerator
      * @param string $documentation Documentation string to add.
      * @param \SimpleXMLElement $xsdParentNode Node to add the documentation to
      */
-    protected function addDocumentation($documentation, \SimpleXMLElement $xsdParentNode)
+    protected function addDocumentation(string $documentation, \SimpleXMLElement $xsdParentNode): void
     {
-        $documentation = preg_replace('/[^(\x00-\x7F)]*/', '', $documentation);
-        $documentation = preg_replace('/(^\ |$)/m', '', $documentation);
+        $documentation = (string)preg_replace('/[^(\x00-\x7F)]*/', '', $documentation);
+        $documentation = (string)preg_replace('/(^\ |$)/m', '', $documentation);
         $xsdAnnotation = $xsdParentNode->addChild('xsd:annotation');
         $this->addChildWithCData($xsdAnnotation, 'xsd:documentation', $documentation);
     }
