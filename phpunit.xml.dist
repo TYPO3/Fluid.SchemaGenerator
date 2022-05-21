@@ -12,7 +12,8 @@
     stopOnFailure="false"
     stopOnIncomplete="false"
     stopOnSkipped="false"
-    verbose="false">
+    verbose="false"
+>
 
     <testsuites>
         <testsuite name="TYPO3.Fluid.SchemaGenerator Unit">
@@ -22,9 +23,4 @@
             <directory>tests/Functional</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
-            <directory>src/</directory>
-        </whitelist>
-    </filter>
 </phpunit>
