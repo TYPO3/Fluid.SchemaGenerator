@@ -18,7 +18,7 @@ class ClassFinder
      * Get all class names in packages specified by $packagePaths.
      *
      * @param array<string, string> $packagePaths
-     * @return array<int, string>
+     * @return array<int, class-string>
      * @throws \RuntimeException
      */
     public function getClassNamesInPackages(array $packagePaths): array
@@ -40,7 +40,7 @@ class ClassFinder
      *
      * @param string $packagePath
      * @param string $phpNamespace
-     * @return array<int, string>
+     * @return array<int, class-string>
      */
     public function getClassNamesInPackage(string $packagePath, string $phpNamespace): array
     {
