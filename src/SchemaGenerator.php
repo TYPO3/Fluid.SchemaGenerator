@@ -54,7 +54,7 @@ class SchemaGenerator
             };
         }
         $phpNamespace = key($namespaceClassPathMap);
-        $phpNamespace = rtrim($phpNamespace, '\\');
+        $phpNamespace = rtrim((string)$phpNamespace, '\\');
         $xsdNamespace = 'http://typo3.org/ns/' . str_replace('\\', '/', rtrim($phpNamespace, '\\'));
         $xmlRootNode = new \SimpleXMLElement(
             '<?xml version="1.0" encoding="UTF-8"?>
