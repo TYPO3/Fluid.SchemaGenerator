@@ -34,15 +34,12 @@ class SchemaGenerator
      * values, e.g. an array of class paths indexed by namespace.
      *
      * @param array<string, string> $namespaceClassPathMap A map of phpNamespace=>directory, whose paths get scanned.
-     * @param \Closure|null $classInstancingClosure Optional closure which loads a class. See the default closure for requirements.
      */
-    public function generateXsd(array $namespaceClassPathMap, \Closure $classInstancingClosure = null): string
+    public function generateXsd(array $namespaceClassPathMap): string
     {
-        if (!$classInstancingClosure) {
-            $classInstancingClosure = function ($className, ...$arguments) {
-                return new $className(...$arguments);
-            };
-        }
+        $classInstancingClosure = function ($className, ...$arguments) {
+            return new $className(...$arguments);
+        };
         $phpNamespace = key($namespaceClassPathMap);
         $phpNamespace = rtrim((string)$phpNamespace, '\\');
         $xsdNamespace = 'http://typo3.org/ns/' . str_replace('\\', '/', rtrim($phpNamespace, '\\'));
