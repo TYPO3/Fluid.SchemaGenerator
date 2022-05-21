@@ -13,6 +13,3 @@ install: composer install
 
 script:
   - vendor/bin/phpunit
-
-after_script:
-  - travis_retry php vendor/bin/php-coveralls
