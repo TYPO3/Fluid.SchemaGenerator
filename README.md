@@ -1,8 +1,7 @@
 Fluid ViewHelper Schema Generator
 =================================
 
-[![Build Status](https://travis-ci.org/TYPO3/Fluid.SchemaGenerator.svg?branch=master)](https://travis-ci.org/TYPO3/Fluid.SchemaGenerator)
-[![Coverage Status](https://coveralls.io/repos/github/TYPO3/Fluid.SchemaGenerator/badge.svg)](https://coveralls.io/github/TYPO3/Fluid.SchemaGenerator)
+[![Tests](https://github.com/lolli42/Fluid.SchemaGenerator/actions/workflows/tests.yml/badge.svg)](https://github.com/lolli42/Fluid.SchemaGenerator/actions/workflows/tests.yml)
 
 What does it do?
 ----------------
@@ -67,3 +66,9 @@ Usage
 Provide as many package namespaces as desired and all ViewHelper classes in all those
 namespaces will be included in the schame. The *first* provided namespace gets used
 when determining the XSD namespace URL.
+
+
+License
+-------
+
+MIT License. See LICENSE file.

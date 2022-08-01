@@ -3,18 +3,24 @@
 	"description": "Generates XSD schemas for packages containing Fluid ViewHelpers",
 	"license": ["MIT"],
 	"require": {
-		"php": "^7.2"
+		"php": "^7.2 || ^8.0"
 	},
 	"require-dev": {
-		"php-coveralls/php-coveralls": "^2.1",
-		"phpunit/phpunit": "^7.3",
-		"typo3fluid/fluid": "^2.5"
+		"typo3fluid/fluid": "^2.6.10",
+		"phpunit/phpunit": "^8.5 || ^9.5",
+		"friendsofphp/php-cs-fixer": "^3.4",
+		"phpstan/phpstan": "^1.6"
 	},
 	"autoload": {
 		"psr-4": {
 			"TYPO3\\FluidSchemaGenerator\\": "src/"
 		}
 	},
+    "autoload-dev": {
+        "psr-4": {
+            "TYPO3\\FluidSchemaGenerator\\Tests\\": "tests/"
+        }
+    },
 	"bin": [
 		"bin/generateschema"
 	]

@@ -1,0 +1,26 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Cannot access property \\$ownerDocument on DOMElement\\|false\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^Cannot call method appendChild\\(\\) on DOMElement\\|false\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^Cannot call method importNode\\(\\) on DOMDocument\\|null\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^Method TYPO3\\\\FluidSchemaGenerator\\\\SchemaGenerator\\:\\:addChildWithCData\\(\\) should return SimpleXMLElement but returns SimpleXMLElement\\|null\\.$#"
+			count: 1
+			path: src/SchemaGenerator.php
+
+		-
+			message: "#^SimpleXMLElement does not accept string\\.$#"
+			count: 8
+			path: src/SchemaGenerator.php
