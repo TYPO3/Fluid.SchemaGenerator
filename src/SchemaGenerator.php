@@ -164,6 +164,7 @@ class SchemaGenerator
             case 'double':
                 return 'xsd:double';
             case 'boolean':
+            case 'bool':
                 return 'xsd:boolean';
             case 'string':
                 return 'xsd:string';

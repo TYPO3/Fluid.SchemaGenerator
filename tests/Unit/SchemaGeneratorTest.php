@@ -59,6 +59,7 @@ class SchemaGeneratorTest extends TestCase
             ['float', 'xsd:float'],
             ['double', 'xsd:double'],
             ['boolean', 'xsd:boolean'],
+            ['bool', 'xsd:boolean'],
             ['string', 'xsd:string'],
             ['array', 'xsd:anySimpleType'],
             ['mixed', 'xsd:anySimpleType'],
