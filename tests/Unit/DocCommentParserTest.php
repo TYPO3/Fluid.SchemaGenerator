@@ -37,6 +37,30 @@ class DocCommentParserTest extends TestCase
     /**
      * @test
      */
+    public function returnsDescriptionWithoutTagsExceptDeprecated(): void
+    {
+        $subject = new DocCommentParser();
+        $expected = implode(PHP_EOL, [
+            'Some Description',
+            '',
+            '..  attention::',
+            '     **Deprecated** since v11, will be removed in v12.',
+            '/',
+        ]);
+
+        $result = $subject->parseDocComment(implode(PHP_EOL, [
+            '/**',
+            ' * Some Description',
+            ' * @param string $someParam With some description',
+            ' * @deprecated since v11, will be removed in v12.',
+            ' */',
+        ]));
+        self::assertEquals($expected, $result);
+    }
+
+    /**
+     * @test
+     */
     public function returnsDescriptionWithoutTagsContainingFurtherAtSign(): void
     {
         $subject = new DocCommentParser();
