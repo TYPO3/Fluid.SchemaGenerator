@@ -117,16 +117,16 @@ class SchemaGenerator
             $tagName = $this->getTagNameForClass($documentation->getClass());
 
             $xsdElement = $xmlRootNode->addChild('xsd:element');
-            $xsdElement['name'] = $tagName;
+            $xsdElement->addAttribute('name', $tagName);
 
             $this->addDocumentation($documentation->getDescription(), $xsdElement);
 
             $xsdComplexType = $xsdElement->addChild('xsd:complexType');
-            $xsdComplexType['mixed'] = 'true';
+            $xsdComplexType->addAttribute('mixed', 'true');
             $xsdSequence = $xsdComplexType->addChild('xsd:sequence');
             $xsdAny = $xsdSequence->addChild('xsd:any');
-            $xsdAny['minOccurs'] = '0';
-            $xsdAny['maxOccurs'] = '1';
+            $xsdAny->addAttribute('minOccurs', '0');
+            $xsdAny->addAttribute('maxOccurs', '1');
 
             $this->addAttributes($documentation, $xsdComplexType);
         }
@@ -144,11 +144,11 @@ class SchemaGenerator
             $default = $argumentDefinition->getDefaultValue();
             $type = $argumentDefinition->getType();
             $xsdAttribute = $xsdElement->addChild('xsd:attribute');
-            $xsdAttribute['type'] = $this->convertPhpTypeToXsdType($type);
-            $xsdAttribute['name'] = $argumentDefinition->getName();
-            $xsdAttribute['default'] = var_export($default, true);
+            $xsdAttribute->addAttribute('type', $this->convertPhpTypeToXsdType($type));
+            $xsdAttribute->addAttribute('name', $argumentDefinition->getName());
+            $xsdAttribute->addAttribute('default', var_export($default, true));
             if ($argumentDefinition->isRequired()) {
-                $xsdAttribute['use'] = 'required';
+                $xsdAttribute->addAttribute('use', 'required');
             }
             $this->addDocumentation($argumentDefinition->getDescription(), $xsdAttribute);
         }
