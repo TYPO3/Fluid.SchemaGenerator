@@ -78,13 +78,10 @@ class SchemaGeneratorTest extends TestCase
     }
 
     /**
-     * @return mixed
+     * @param mixed[] $arguments
      */
-    protected function callInaccessibleMethod()
+    protected function callInaccessibleMethod(object $instance, string $method, ...$arguments): mixed
     {
-        $arguments = func_get_args();
-        $instance = array_shift($arguments);
-        $method = array_shift($arguments);
         $method = new \ReflectionMethod($instance, $method);
         $method->setAccessible(true);
         return $method->invokeArgs($instance, $arguments);
