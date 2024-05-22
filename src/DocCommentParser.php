@@ -33,7 +33,7 @@ class DocCommentParser
                 if (stripos($line, '@deprecated') !== false) {
                     $line = str_replace('@deprecated', '**Deprecated**', $line);
                     $line = $this->parsedDocCommentLine($line);
-                    $deprecatedTag = "..  attention::" . chr(10) . "    " . $line;
+                    $deprecatedTag = '..  attention::' . chr(10) . '    ' . $line;
                 }
                 continue;
             }
@@ -57,7 +57,8 @@ class DocCommentParser
         return preg_match('/^\s*\*?\s*@/', $line) === 1;
     }
 
-    private function parsedDocCommentLine(string $line): string {
+    private function parsedDocCommentLine(string $line): string
+    {
         return preg_replace('/\\s*\\/?[\\\\*]*(.*)$/', '$1', $line) . chr(10);
     }
 }
