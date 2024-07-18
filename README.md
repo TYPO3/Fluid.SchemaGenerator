@@ -1,7 +1,8 @@
 Fluid ViewHelper Schema Generator
 =================================
 
-[![Tests](https://github.com/lolli42/Fluid.SchemaGenerator/actions/workflows/tests.yml/badge.svg)](https://github.com/lolli42/Fluid.SchemaGenerator/actions/workflows/tests.yml)
+> [!NOTE]  
+> XSD schema generation is part of [Fluid](https://github.com/TYPO3/Fluid) since v2.12. Please use this modern approach whenever possible instead of this project.
 
 What does it do?
 ----------------
